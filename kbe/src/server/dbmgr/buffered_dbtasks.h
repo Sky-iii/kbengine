@@ -3,7 +3,7 @@
 #ifndef KBE_BUFFERED_DBTASKS_H
 #define KBE_BUFFERED_DBTASKS_H
 
-// common include	
+// common include
 // #define NDEBUG
 #include "dbtasks.h"
 #include "common/common.h"
@@ -11,7 +11,7 @@
 #include "thread/threadtask.h"
 #include "helper/debug_helper.h"
 
-namespace KBEngine { 
+namespace KBEngine {
 
 /*
 	数据库线程任务buffer
@@ -20,19 +20,19 @@ namespace KBEngine {
 class Buffered_DBTasks
 {
 public:
-	typedef std::multimap<DBID, EntityDBTask*> DBID_TASKS_MAP;  
-	typedef std::multimap<ENTITY_ID, EntityDBTask*> ENTITYID_TASKS_MAP;  
-	
+	typedef std::multimap<DBID, EntityDBTask*> DBID_TASKS_MAP;
+	typedef std::multimap<ENTITY_ID, EntityDBTask*> ENTITYID_TASKS_MAP;
+
 	Buffered_DBTasks();
 	virtual ~Buffered_DBTasks();
-	
+
 	void addTask(EntityDBTask* pTask);
 
 	EntityDBTask* tryGetNextTask(EntityDBTask* pTask);
 
 	size_t size() { return dbid_tasks_.size() + entityid_tasks_.size(); }
 
-	std::string getTasksinfos() 
+	std::string getTasksinfos()
 	{
 		std::string ret;
 
@@ -92,9 +92,9 @@ public:
 		提供给watcher使用
 	*/
 	uint32 dbid_tasksSize()
-	{ 
+	{
 		mutex_.lockMutex();
-		uint32 ret = (uint32)dbid_tasks_.size(); 
+		uint32 ret = (uint32)dbid_tasks_.size();
 		mutex_.unlockMutex();
 		return ret;
 	}
@@ -103,9 +103,9 @@ public:
 		提供给watcher使用
 	*/
 	uint32 entityid_tasksSize()
-	{ 
+	{
 		mutex_.lockMutex();
-		uint32 ret = (uint32)entityid_tasks_.size(); 
+		uint32 ret = (uint32)entityid_tasks_.size();
 		mutex_.unlockMutex();
 		return ret;
 	}

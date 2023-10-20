@@ -14,7 +14,7 @@
 #include "server/serverconfig.h"
 #include "server/globaldata_client.h"
 #include "server/globaldata_server.h"
-#include "server/callbackmgr.h"	
+#include "server/callbackmgr.h"
 #include "common/timer.h"
 #include "network/endpoint.h"
 #include "resmgr/resmgr.h"
@@ -29,7 +29,7 @@ class InterfacesHandler;
 class SyncAppDatasHandler;
 class UpdateDBServerLogHandler;
 
-class Dbmgr :	public PythonApp, 
+class Dbmgr :	public PythonApp,
 				public Singleton<Dbmgr>
 {
 public:
@@ -38,16 +38,16 @@ public:
 		TIMEOUT_TICK = TIMEOUT_PYTHONAPP_MAX + 1,
 		TIMEOUT_CHECK_STATUS
 	};
-	
-	Dbmgr(Network::EventDispatcher& dispatcher, 
-		Network::NetworkInterface& ninterface, 
+
+	Dbmgr(Network::EventDispatcher& dispatcher,
+		Network::NetworkInterface& ninterface,
 		COMPONENT_TYPE componentType,
 		COMPONENT_ID componentID);
 
 	~Dbmgr();
-	
+
 	bool run();
-	
+
 	void handleTimeout(TimerHandle handle, void * arg);
 	void handleMainTick();
 	void handleCheckStatusTick();
@@ -61,7 +61,7 @@ public:
 	bool installPyModules();
 	bool uninstallPyModules();
 	void onInstallPyModules();
-	
+
 	bool initInterfacesHandler();
 
 	bool initDB();
@@ -83,9 +83,9 @@ public:
 		注册一个新激活的baseapp或者cellapp或者dbmgr
 		通常是一个新的app被启动了， 它需要向某些组件注册自己。
 	*/
-	virtual void onRegisterNewApp(Network::Channel* pChannel, 
-							int32 uid, 
-							std::string& username, 
+	virtual void onRegisterNewApp(Network::Channel* pChannel,
+							int32 uid,
+							std::string& username,
 							COMPONENT_TYPE componentType, COMPONENT_ID componentID, COMPONENT_ORDER globalorderID, COMPONENT_ORDER grouporderID,
 							uint32 intaddr, uint16 intport, uint32 extaddr, uint16 extport, std::string& extaddrEx);
 
@@ -95,7 +95,7 @@ public:
 	*/
 	void onGlobalDataClientLogon(Network::Channel* pChannel, COMPONENT_TYPE componentType);
 	void onBroadcastGlobalDataChanged(Network::Channel* pChannel, KBEngine::MemoryStream& s);
-	
+
 	/** 网络接口
 		请求创建账号
 	*/
@@ -127,7 +127,7 @@ public:
 	/** 网络接口
 		账号从baseapp上线了
 	*/
-	void onAccountOnline(Network::Channel* pChannel, std::string& accountName, 
+	void onAccountOnline(Network::Channel* pChannel, std::string& accountName,
 		COMPONENT_ID componentID, ENTITY_ID entityID);
 
 	/** 网络接口
@@ -163,7 +163,7 @@ public:
 	/** 网络接口
 		请求从db获取entity的所有数据
 	*/
-	void queryEntity(Network::Channel* pChannel, uint16 dbInterfaceIndex, COMPONENT_ID componentID, int8	queryMode, DBID dbid, 
+	void queryEntity(Network::Channel* pChannel, uint16 dbInterfaceIndex, COMPONENT_ID componentID, int8	queryMode, DBID dbid,
 		std::string& entityType, CALLBACK_ID callbackID, ENTITY_ID entityID);
 
 	/** 网络接口
@@ -193,22 +193,22 @@ public:
 		账号重置密码
 	*/
 	void accountReqResetPassword(Network::Channel* pChannel, std::string& accountName);
-	void accountResetPassword(Network::Channel* pChannel, std::string& accountName, 
+	void accountResetPassword(Network::Channel* pChannel, std::string& accountName,
 		std::string& newpassword, std::string& code);
 
 	/** 网络接口
 		账号绑定邮箱
 	*/
-	void accountReqBindMail(Network::Channel* pChannel, ENTITY_ID entityID, std::string& accountName, 
+	void accountReqBindMail(Network::Channel* pChannel, ENTITY_ID entityID, std::string& accountName,
 		std::string& password, std::string& email);
 	void accountBindMail(Network::Channel* pChannel, std::string& username, std::string& scode);
 
 	/** 网络接口
 		账号修改密码
 	*/
-	void accountNewPassword(Network::Channel* pChannel, ENTITY_ID entityID, std::string& accountName, 
+	void accountNewPassword(Network::Channel* pChannel, ENTITY_ID entityID, std::string& accountName,
 		std::string& password, std::string& newpassword);
-	
+
 	SyncAppDatasHandler* pSyncAppDatasHandler() const { return pSyncAppDatasHandler_; }
 	void pSyncAppDatasHandler(SyncAppDatasHandler* p){ pSyncAppDatasHandler_ = p; }
 
@@ -266,7 +266,7 @@ protected:
 
 	SyncAppDatasHandler*								pSyncAppDatasHandler_;
 	UpdateDBServerLogHandler*							pUpdateDBServerLogHandler_;
-	
+
 	TelnetServer*										pTelnetServer_;
 
 	std::map<COMPONENT_ID, uint64>						loseBaseappts_;

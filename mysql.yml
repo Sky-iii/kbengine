@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  kbe_mysql:
+    image: mysql:8.0.32
+    restart: always
+    container_name: kbe_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'c1pwd'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_DATABASE: 'kbe_sql'
+    ports:
+      - "3307:3306"
+    volumes:
+      - kbe_sql_volume_log:/var/log/mysql
+      - kbe_sql_volume_data:/var/lib/mysql
+      - kbe_sql_volume_conf:/etc/mysql/conf.d
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    networks:
+      - kbe_mysql_network
+
+volumes:
+  kbe_sql_volume_log:
+  kbe_sql_volume_data:
+  kbe_sql_volume_conf:
+
+CREATE USER 'kbe'@'%' IDENTIFIED BY 'pwd123456';
+GRANT ALL PRIVILEGES ON *.* TO 'kbe'@'%' WITH GRANT OPTION;
+
+networks:
+  kbe_mysql_network:
+    name: kbe_mysql_network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.5.1/24
